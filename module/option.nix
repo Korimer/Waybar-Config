@@ -8,24 +8,61 @@ let
       module = mkOption {
         type = types.str;
         description = "Waybar module name.";
+        example = "battery";
       };
 
       instance = mkOption {
-        type = types.int;
+        type = types.ints.positive;
         default = 1;
-        description = "Waybar module instance number.";
+        description = ''
+          Module instance number.
+
+          Instances are emitted as `<module>#<instance>`, matching Waybar's
+          native multiple-instance syntax.
+        '';
+        example = 2;
       };
 
       settings = mkOption {
         type = types.attrsOf types.anything;
         default = {};
-        description = "Configuration for this module.";
+        description = "Configuration for this module instance.";
+        example = {
+          bat = "BAT1";
+        };
       };
 
       css = mkOption {
         type = types.attrsOf (types.attrsOf types.str);
         default = {};
-        description = "CSS-related attributes for this module.";
+        description = ''
+          CSS declarations for this module instance.
+
+          The outer attribute name is an optional CSS class suffix. An empty
+          string targets the module instance itself.
+
+          Example:
+
+            css = {
+              "" = {
+                color = "#e0af68";
+              };
+
+              "critical" = {
+                color = "#ffffff";
+              };
+            };
+
+          For a battery module with `instance = 2`, this generates:
+
+            #battery.i2 {
+              color: #e0af68;
+            }
+
+            #battery.i2.critical {
+              color: #ffffff;
+            }
+        '';
       };
     };
   };
@@ -44,7 +81,9 @@ in
     extraCss = mkOption {
       type = types.lines;
       default = "";
-      description = "Additional CSS appended to the generated Waybar stylesheet.";
+      description = ''
+        Additional CSS appended to the generated Waybar stylesheet.
+      '';
     };
 
     modulesLeft = mkOption {
@@ -68,7 +107,9 @@ in
     groups = mkOption {
       type = types.attrsOf (types.listOf moduleType);
       default = {};
-      description = "Named groups of Waybar modules.";
+      description = ''
+        Named groups of Waybar modules.
+      '';
     };
   };
 }
