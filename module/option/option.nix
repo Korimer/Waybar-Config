@@ -24,18 +24,33 @@ let
 
   barType = types.submodule {
     options = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+
+      barConfig = mkOption {
+        type = import ./barConfig.nix {inherit lib;};
+        default = {};
+      };
+
+      groups = mkOption {
+        type = types.attrsOf (types.listOf moduleType);
+        default = {};
+      };
+
       modulesLeft = mkOption {
-        type = types.listOf moduleIdType;
+        type = types.listOf moduleType;
         default = [];
       };
 
       modulesCenter = mkOption {
-        type = types.listOf moduleIdType;
+        type = types.listOf moduleType;
         default = [];
       };
 
       modulesRight = mkOption {
-        type = types.listOf moduleIdType;
+        type = types.listOf moduleType;
         default = [];
       };
     };
@@ -51,18 +66,9 @@ in
       defaultText = literalExpression "pkgs.waybar";
     };
 
-    moduleDefinitions = mkOption {
-      type = types.listOf moduleType;
-    };
-
     extraCss = mkOption {
       type = types.lines;
       default = "";
-    };
-
-    groups = mkOption {
-      type = types.attrsOf (types.listOf moduleId);
-      default = {};
     };
 
     bars = mkOption {
