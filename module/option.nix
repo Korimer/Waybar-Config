@@ -3,24 +3,11 @@
 with lib;
 
 let
-  moduleIdType = types.submodule {
-    options = {
-      module = {
-        type = types.str;
-        example = "battery";
-      };
-
-      instance = mkOption {
-        type = types.ints.positive;
-        default = 1;
-      };
-    };
-  };
-  
   moduleType = types.submodule {
     options = {
-      id = mkOption {
-        type = moduleIdType;
+      name = mkOption {
+        type = types.str;
+        example = "battery";
       };
 
       settings = mkOption {
@@ -79,8 +66,8 @@ in
     };
 
     bars = mkOption {
-      type = types.listOf barType;
-      default = [];
+      type = types.attrsOf barType;
+      default = {};
       description = "Waybar bars.";
     };
   };
