@@ -6,8 +6,6 @@
     
     bars.myAwesomeWaybar = {
       barConfig = {
-        icon-size = 18;
-        spacing = 10;
       };
 
       groups = {
@@ -126,14 +124,53 @@
       };
 
       modulesLeft = [
-
+        {
+          name = "custom/swaync";
+          settings = {
+          };
+        }
+        {
+          name = "group/utilities";
+          settings = {
+            orientation = "orthogonal";
+          };
+        }
+        {
+          name = "tray";
+          settings = {
+            icon-size = 18;
+            spacing = 10;
+          };
+        }
       ];
 
       modulesCenter = [
-
+        {
+          name = "wlr/taskbar";
+          settings = {
+            on-click = "activate";
+            on-click-middle = "close";
+            on-click-right = "minimize";
+          };
+        }
+        {
+          name = "niri/workspaces";
+        }
       ];
 
       modulesRight = [
+        {
+          name = "group/resourceUsage";
+          settings = {
+            orientation = "orthogonal";
+          };
+        }
+        {
+          name = "group/heatStats";
+          settings = {
+            orientation = "orthogonal";
+          };
+        }
 
       ];
     };
