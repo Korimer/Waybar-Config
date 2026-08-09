@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ lib, config, ... }:
 let
   toJSON = barConfig: 
        ( import ./groups.nix barConfig )
@@ -7,9 +7,10 @@ let
   ;
 
   mkWaybarJson = barName: barConfig: {
-    "waybar/${barName}/config.jsonc".text = builtins.toJSON [( toJSON barConfig )];
+    name = "waybar/${barName}/config.jsonc";
+    value = { text = builtins.toJSON [( toJSON barConfig )]; };
   };
 in
 {
-  environment.etc = pkgs.mapAttrs' mkWaybarJson config.programs.waybar.bars;
+  environment.etc = lib.mapAttrs' mkWaybarJson config.programs.waybar.bars;
 }

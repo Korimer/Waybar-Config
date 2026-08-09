@@ -1,3 +1,3 @@
 {
-  imports = [ ./option.nix ./config.nix ];
+  imports = [ ./option ./css ./json ];
 }

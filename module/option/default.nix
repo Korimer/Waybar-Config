@@ -58,14 +58,6 @@ let
 in
 {
   options.programs.waybar = {
-    enable = mkEnableOption "Waybar";
-
-    package = mkOption {
-      type = types.package;
-      default = pkgs.waybar;
-      defaultText = literalExpression "pkgs.waybar";
-    };
-
     extraCss = mkOption {
       type = types.lines;
       default = "";
