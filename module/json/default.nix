@@ -1,6 +1,6 @@
 { lib, pkgs, config, ... }:
 let
-  toJSON = barConfig: 
+  toJSON = barConfig:
        ( import ./groups.nix barConfig )
     // ( import ./modules.nix barConfig )
     // ( import ./settings.nix barConfig )

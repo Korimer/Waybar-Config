@@ -65,3 +65,23 @@ in
   standardModules = distinguishedStandardModules.staged;
   groupModules = distinguishedGroupModules.staged;
 }
+
+# produces:
+
+#   {
+#     standardModules = {
+#       modules-left = [
+#         {
+#           distinguishedName = "battery#id1";
+#           config = { name = "battery"; settings = { ... }; css = { ... }; };
+#         }
+#       ];
+#       modules-right = [  ];
+#       modules-center = [  ];
+#     };
+#     groupModules = {
+#       "group/name1" = [  ];
+#       "group/whatevername" = [  ];
+#       "group/blahblahblah" = [  ];
+#     }
+#   }
