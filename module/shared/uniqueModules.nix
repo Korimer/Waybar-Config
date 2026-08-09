@@ -60,10 +60,14 @@ let
     }
     standardModules
   ;
+  flatten = list: builtins.foldl' (acc: elem: acc ++ elem) [] list;
 in
 {
   standardModules = distinguishedStandardModules.staged;
   groupModules = distinguishedGroupModules.staged;
+  allModules = flatten ( builtins.attrValues
+    (distinguishedGroupModules.staged // distinguishedStandardModules.staged)
+  );
 }
 
 # produces:
@@ -84,4 +88,5 @@ in
 #       "group/whatevername" = [  ];
 #       "group/blahblahblah" = [  ];
 #     }
+#     allModules = [  ];
 #   }

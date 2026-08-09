@@ -120,10 +120,6 @@
               };
             };
           }
-
-          {
-            name = "cpu";
-          }
         ];
       };
 
@@ -133,14 +129,11 @@
           settings = {
           };
         }
-
-        {
-          name = "cpu";
-        }
         {
           name = "group/utilities";
           settings = {
             orientation = "orthogonal";
+            drawer = {};
           };
         }
         {
@@ -170,13 +163,14 @@
         {
           name = "group/resourceUsage";
           settings = {
-            orientation = "orthogonal";
+            orientation = "inherit";
           };
         }
         {
           name = "group/heatStats";
           settings = {
             orientation = "orthogonal";
+            drawer = {};
           };
         }
 
