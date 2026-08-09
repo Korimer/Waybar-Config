@@ -120,6 +120,10 @@
               };
             };
           }
+
+          {
+            name = "cpu";
+          }
         ];
       };
 
@@ -128,6 +132,10 @@
           name = "custom/swaync";
           settings = {
           };
+        }
+
+        {
+          name = "cpu";
         }
         {
           name = "group/utilities";

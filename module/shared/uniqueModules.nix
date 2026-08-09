@@ -1,12 +1,17 @@
 barConfig:
 let
+  distinguishedElem = elem: num: {
+    distinguishedName = "${elem.name}#id${toString num}";
+    config = elem;
+  };
+  
   distinguishElements = accumulated: newElements: builtins.foldl'
     (acc: elem:
-      let elemNum = if (acc.elemCount ? elem) then acc.elemCount.${elem} + 1 else 1;
+      let elemNum = if (acc.elemCount ? ${elem.name}) then acc.elemCount.${elem.name} + 1 else 1;
       in
       {
-        elemCount = acc.elemCount // { ${elem} = elemNum + 1; };
-        elems = acc.elems ++ [ "${elem}#id${toString elemNum}" ];
+        elemCount = acc.elemCount // { ${elem.name} = elemNum; };
+        elems = acc.elems ++ [ (distinguishedElem elem elemNum) ];
       }
     )
     {
@@ -16,35 +21,47 @@ let
     newElements
   ;
 
-  groupNames = map 
-    (name: "group/${name}")
-    (builtins.attrNames barConfig.groups)
-  ;
+  groupModules = map
+    (name: { name = "group/${name}"; value = barConfig.groups.${name}; })
+    (builtins.attrNames barConfig.groups);
 
-  getModuleNames = moduleList: map (module: module.name) moduleList;
-
-  toDistinguish = [
-    { name = "groups"; value = groupNames; }
-    { name = "modules-left";   value = getModuleNames barConfig.modulesLeft; }
-    { name = "modules-center"; value = getModuleNames barConfig.modulesCenter; }
-    { name = "modules-right";  value = getModuleNames barConfig.modulesRight; }
+  standardModules = [
+    { name = "modules-left";   value = barConfig.modulesLeft; }
+    { name = "modules-center"; value = barConfig.modulesCenter; }
+    { name = "modules-right";  value = barConfig.modulesRight; }
   ];
 
-  stagingDistinguished = builtins.foldl'
-    (acc: elem: 
-      let
-        asDistinguished = distinguishElements acc.accumulated elem.value;
-      in
-      {
-        staged = acc.staged // { ${elem.name} = asDistinguished.elems; };
-        accumulated = asDistinguished.elemCount;
-      })
+  distinguish = cur_staging: module_attrpair:
+    let
+      asDistinguished =
+        distinguishElements cur_staging.accumulated module_attrpair.value;
+    in
+    {
+      staged =
+        cur_staging.staged // { ${module_attrpair.name} = asDistinguished.elems; };
+      accumulated =
+        asDistinguished.elemCount;
+    };
+
+  distinguishedGroupModules = builtins.foldl'
+    distinguish
     {
       staged = {};
       accumulated = {};
     }
-    toDistinguish
+    groupModules
   ;
 
+  distinguishedStandardModules = builtins.foldl'
+    distinguish
+    {
+      staged = {};
+      accumulated = distinguishedGroupModules.accumulated;
+    }
+    standardModules
+  ;
 in
-  stagingDistinguished.staged
+{
+  standardModules = distinguishedStandardModules.staged;
+  groupModules = distinguishedGroupModules.staged;
+}

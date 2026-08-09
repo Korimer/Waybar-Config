@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, pkgs, config, ... }:
 let
   toJSON = barConfig: 
        ( import ./groups.nix barConfig )
@@ -6,9 +6,18 @@ let
     // ( import ./settings.nix barConfig )
   ;
 
+  prettyJSON = attrs:
+    builtins.readFile (
+      pkgs.runCommand "pretty-json" {
+        json = builtins.toJSON attrs;
+      } ''
+        printf '%s' "$json" | ${pkgs.jq}/bin/jq . > $out
+      ''
+    );
+
   mkWaybarJson = barName: barConfig: {
     name = "waybar/${barName}/config.jsonc";
-    value = { text = builtins.toJSON [( toJSON barConfig )]; };
+    value = { text = prettyJSON [( toJSON barConfig )]; };
   };
 in
 {
