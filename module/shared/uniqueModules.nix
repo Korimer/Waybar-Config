@@ -1,7 +1,8 @@
 barConfig:
 let
-  distinguishedElem = elem: num: {
-    distinguishedName = "${elem.name}#id${toString num}";
+  distinguishedElem = elem: num: rec {
+    distinguishment = "id${toString num}";
+    distinguishedName = "${elem.name}#${distinguishment}";
     config = elem;
   };
   

@@ -14,10 +14,12 @@ let
       ''
     );
 
-  mkWaybarJson = barName: barConfig: {
-    name = "waybar/${barName}/config.jsonc";
-    value = { text = prettyJSON [( toJSON barConfig )]; };
-  };
+  mkWaybarJson = barName: barConfig:
+    let barLocation = import ../shared/barLocation.nix barName barConfig; in
+    {
+      name =  "${barLocation}/config.jsonc";
+      value = { text = prettyJSON [( toJSON barConfig )]; };
+    };
 in
 {
   environment.etc = lib.mapAttrs' mkWaybarJson config.programs.waybar.bars;

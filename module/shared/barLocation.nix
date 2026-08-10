@@ -1,0 +1,1 @@
+barName: barConfig: "waybar/${barName}"
