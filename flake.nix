@@ -7,6 +7,12 @@
   };
 
   outputs = { self, nixpkgs, gtk-css}: {
-    nixosModules.default = import ./module;
+    nixosModules.default = {
+      _module.args.gtk-css = gtk-css;
+
+      imports = [
+        ./module
+      ];
+    };
   };
 }

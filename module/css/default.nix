@@ -1,27 +1,17 @@
-{ inputs, ... }:
+{ gtk-css, lib, config, ... }:
 let
+  perModule = import ./perModule.nix;
 
-  selectorName = moduleName:
-    if builtins.match "^custom/" moduleName != null
-    then builtins.replaceStrings ["/"] ["-"] moduleName
-    else builtins.replaceStrings [".*/"] [""] moduleName
-  ;
-
-  toSelector = module: map
-    (sub-selector: [ "#${module.config.name}.${module.distinguishment}${sub-selector}" ])
-    (builtins.attrNames module.config.css)
-  ;
-  toDeclarations = module: module;
-
-  toCSS = inputs.nix-gtk-css.lib.generate;
+  toCSS = module: gtk-css.lib.generate (perModule module);
   
-  mkWaybarCss = barName: barConfig:
-    let barLocation = import ../shared/barLocation.nix barName barConfig; in
+  mkWaybarCSS = barName: barConfig:
+    let
+      barLocation = import ../shared/barLocation.nix barName barConfig;
+      allModules = import ../shared/uniqueModules.nix barConfig;
+    in
     {
       name = "${barLocation}/style.css";
-      value = null;
+      value = { text = builtins.concatStringsSep "\n" (map toCSS allModules.allModules); };
     };
 in
-{
-
-}
+  { environment.etc = lib.mapAttrs' mkWaybarCSS config.programs.waybar.bars; }

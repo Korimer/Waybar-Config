@@ -1,7 +1,5 @@
-barConfig:
+allModules:
 let
-  allModules = import ../shared/uniqueModules.nix barConfig;
-
   preparedModules = import ./inject-groups.nix allModules;
 
   allSettings = builtins.foldl'

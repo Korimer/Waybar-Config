@@ -15,12 +15,13 @@ let
     );
 
   mkWaybarJson = barName: barConfig:
-    let barLocation = import ../shared/barLocation.nix barName barConfig; in
+    let
+      barLocation = import ../shared/barLocation.nix barName barConfig;
+      allModules = import ../shared/uniqueModules.nix barConfig;
+    in
     {
       name =  "${barLocation}/config.jsonc";
-      value = { text = prettyJSON [( toJSON barConfig )]; };
+      value = { text = prettyJSON [( toJSON allModules )]; };
     };
 in
-{
-  environment.etc = lib.mapAttrs' mkWaybarJson config.programs.waybar.bars;
-}
+  { environment.etc = lib.mapAttrs' mkWaybarJson config.programs.waybar.bars; }

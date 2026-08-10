@@ -15,8 +15,21 @@ let
         default = {};
       };
 
-      css = mkOption {
-        type = types.attrsOf (types.attrsOf types.str);
+      style = mkOption {
+        type = types.submodule {
+          options = {
+            base = mkOption {
+              type = types.attrsOf types.str;
+              default = {};
+            };
+
+            bySelector = mkOption {
+              type = types.attrsOf (types.attrsOf types.str);
+              default = {};
+            };
+          };
+        };
+
         default = {};
       };
     };

@@ -1,7 +1,4 @@
-barConfig:
-let
-  allModules = import ../shared/uniqueModules.nix barConfig;
-in
+allModules:
   builtins.mapAttrs (name: value:
     (map
       (module: module.distinguishedName)

@@ -9,6 +9,17 @@
       };
 
       groups = {
+        generalStats = [
+          {
+            name = "group/heatStats";
+            settings.orientation = "orthogonal";
+          }
+          {
+            name = "group/resourceUsage";
+            settings.orientation = "orthogonal";
+          }
+        ];
+
         heatStats = [
           {
             name = "temperature";
@@ -17,10 +28,8 @@
               format = " {temperatureC}°C";
               tooltip = true;
             };
-            css = {
-              temperature = {
-                color = "#f38ba8";
-              };
+            style.base = {
+              color = "#f38ba8";
             };
           }
         ];
@@ -33,10 +42,8 @@
               format = " {usage}%";
               tooltip = true;
             };
-            css = {
-              cpu = {
-                color = "#89b4fa";
-              };
+            style.base = {
+              color = "#89b4fa";
             };
           }
 
@@ -47,30 +54,13 @@
               format = " {percentage}%";
               tooltip = true;
             };
-            css = {
-              memory = {
-                color = "#a6e3a1";
-              };
+            style.base = {
+              color = "#a6e3a1";
             };
           }
         ];
 
         utilities = [
-          {
-            name = "network";
-            settings = {
-              format-wifi = "󰤨 {essid}";
-              format-ethernet = "󰈀 {ifname}";
-              format-disconnected = "󰤭";
-              tooltip = true;
-            };
-            css = {
-              network = {
-                color = "#cba6f7";
-              };
-            };
-          }
-
           {
             name = "bluetooth";
             settings = {
@@ -81,30 +71,11 @@
               format-connected = "󰂱 {device_alias}";
               tooltip = true;
             };
-            css = {
-              bluetooth = {
-                color = "#89b4fa";
-              };
+            style.base = {
+              color = "#89b4fa";
             };
           }
 
-          {
-            name = "pulseaudio";
-            settings = {
-              format = "{icon} {volume}%";
-              format-muted = "󰝟 muted";
-              format-icons = {
-                default = [ "󰕿" "󰖀" "󰕾" ];
-              };
-              tooltip = true;
-              on-click = "pavucontrol";
-            };
-            css = {
-              pulseaudio = {
-                color = "#f9e2af";
-              };
-            };
-          }
 
           {
             name = "battery";
@@ -114,10 +85,8 @@
               format-full = " {capacity}%";
               tooltip = true;
             };
-            css = {
-              battery = {
-                color = "#f9e2af";
-              };
+            style.base = {
+              color = "#f9e2af";
             };
           }
         ];
@@ -125,22 +94,31 @@
 
       modulesLeft = [
         {
-          name = "custom/swaync";
-          settings = {
+          name = "group/generalStats";
+          style.bySelector." *" = {
+            margin = "0 5px";
           };
         }
         {
-          name = "group/utilities";
+          name = "pulseaudio";
           settings = {
-            orientation = "orthogonal";
-            drawer = {};
+            format = "{icon} {volume}%";
+            format-muted = "󰝟 muted";
+            format-icons = {
+              base = [ "󰕿" "󰖀" "󰕾" ];
+            };
+            tooltip = true;
+            on-click = "pavucontrol";
           };
-        }
-        {
-          name = "tray";
-          settings = {
-            icon-size = 18;
-            spacing = 10;
+
+          style = {
+            base = {
+              color = "#f9e2af";
+              background-color = "#89b4fa";
+            };
+            bySelector.".muted" = {
+              background-color = "#aa99aa";
+            };
           };
         }
       ];
@@ -154,26 +132,16 @@
             on-click-right = "minimize";
           };
         }
-        {
-          name = "niri/workspaces";
-        }
       ];
 
       modulesRight = [
         {
-          name = "group/resourceUsage";
+          name = "group/utilities";
           settings = {
             orientation = "inherit";
-          };
-        }
-        {
-          name = "group/heatStats";
-          settings = {
-            orientation = "orthogonal";
             drawer = {};
           };
         }
-
       ];
     };
 
