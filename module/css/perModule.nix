@@ -7,7 +7,7 @@ let
 
   selectorName =
     let moduleName = module.config.name; in "#" + (
-      if builtins.match "^custom/" moduleName != null
+      if builtins.match "^custom/.*" moduleName != null
       then builtins.replaceStrings ["/"] ["-"] moduleName
       else replaceGroup moduleName
   );
