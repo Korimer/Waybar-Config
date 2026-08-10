@@ -1,7 +1,5 @@
-{ lib, pkgs, ... }:
-
+{ lib, ... }:
 with lib;
-
 let
   moduleType = types.submodule {
     options = {
@@ -42,6 +40,11 @@ let
         default = true;
       };
 
+      extraCss = mkOption {
+        type = types.lines;
+        default = "";
+      };
+
       barConfig = mkOption {
         type = import ./barConfig.nix {inherit lib;};
         default = {};
@@ -71,10 +74,6 @@ let
 in
 {
   options.programs.waybar = {
-    extraCss = mkOption {
-      type = types.lines;
-      default = "";
-    };
 
     bars = mkOption {
       type = types.attrsOf barType;
