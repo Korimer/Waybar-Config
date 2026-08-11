@@ -15,7 +15,7 @@ let
       allModules = import ../shared/uniqueModules.nix barConfig;
     in
     {
-      name = "${barLocation}/style.css";
+      name = barLocation.style;
       value = { text = toCSSComplete barConfig.extraCss allModules.allModules; };
     };
 in

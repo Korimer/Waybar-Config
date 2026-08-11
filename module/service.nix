@@ -12,7 +12,7 @@ let
         wantedBy = [ "graphical-session.target" ];
 
         serviceConfig = {
-          ExecStart = "${lib.getExe pkgs.waybar} --config ${location.config} --style ${location.css}";
+          ExecStart = "${lib.getExe pkgs.waybar} --config ${location.config} --style ${location.style}";
           Restart = "on-failure";
         };
       };

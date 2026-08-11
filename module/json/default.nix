@@ -20,7 +20,7 @@ let
       allModules = import ../shared/uniqueModules.nix barConfig;
     in
     {
-      name =  "${barLocation}/config.jsonc";
+      name =  barLocation.config;
       value = { text = prettyJSON [( toJSON allModules )]; };
     };
 in
