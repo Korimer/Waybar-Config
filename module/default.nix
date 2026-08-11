@@ -1,3 +1,3 @@
 {
-  imports = [ ./option ./css ./json ];
+  imports = [ ./option ./css ./json ./service.nix ];
 }
