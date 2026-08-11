@@ -26,5 +26,5 @@ let
       config.programs.waybar.bars;
 in
 {
-  systemd.services = lib.mapAttrs' toService enabledBars;
+  systemd.user.services = lib.mapAttrs' toService enabledBars;
 }
