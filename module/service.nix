@@ -7,6 +7,7 @@ let
     in
     {
       "${barName}-waybar" = {
+        name = "${barName}-waybar";
         description = "Waybar for ${barName}";
         wantedBy = [ "graphical-session.target" ];
 
