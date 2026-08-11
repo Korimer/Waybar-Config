@@ -16,7 +16,7 @@ let
     in
     {
       name = "${barLocation}/style.css";
-      value = { text = toCSSComplete barConfig.extraCSS allModules.allModules; };
+      value = { text = toCSSComplete barConfig.extraCss allModules.allModules; };
     };
 in
   { environment.etc = lib.mapAttrs' mkWaybarCSS config.programs.waybar.bars; }
