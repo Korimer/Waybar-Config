@@ -14,7 +14,7 @@ let
 
         serviceConfig = {
           ExecStart =
-            "${lib.getExe pkgs.waybar} --config ${location.config} --style ${location.style}";
+            "${lib.getExe pkgs.waybar} --config /etc/${location.config} --style /etc/${location.style}";
           Restart = "on-failure";
         };
       };
