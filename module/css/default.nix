@@ -2,7 +2,12 @@
 let
   perModule = import ./perModule.nix;
 
-  toCSS = module: gtk-css.lib.generate (perModule module);
+  toCSSAttrs = module: gtk-css.lib.generate (perModule module);
+  toCSSText = modules: builtins.concatStringsSep "\n" (map toCSSAttrs modules);
+  toCSSComplete = extraCss: allModules: ''
+    ${extraCss}
+    ${toCSSText allModules}
+  '';
   
   mkWaybarCSS = barName: barConfig:
     let
@@ -11,7 +16,7 @@ let
     in
     {
       name = "${barLocation}/style.css";
-      value = { text = builtins.concatStringsSep "\n" (map toCSS allModules.allModules); };
+      value = { text = toCSSComplete barConfig.extraCSS allModules.allModules; };
     };
 in
   { environment.etc = lib.mapAttrs' mkWaybarCSS config.programs.waybar.bars; }
