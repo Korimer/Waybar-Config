@@ -6,19 +6,24 @@ let
       location = import ./shared/barLocation.nix barName barConfig;
     in
     {
-      "${barName}-waybar" = {
-        name = "${barName}-waybar";
+      name = "${barName}-waybar";
+
+      value = {
         description = "Waybar for ${barName}";
         wantedBy = [ "graphical-session.target" ];
 
         serviceConfig = {
-          ExecStart = "${lib.getExe pkgs.waybar} --config ${location.config} --style ${location.style}";
+          ExecStart =
+            "${lib.getExe pkgs.waybar} --config ${location.config} --style ${location.style}";
           Restart = "on-failure";
         };
       };
     };
 
-  enabledBars = lib.filterAttrs (_: bar: bar.enable) config.programs.waybar.bars;
+  enabledBars =
+    lib.filterAttrs
+      (_: bar: bar.enable)
+      config.programs.waybar.bars;
 in
 {
   systemd.services = lib.mapAttrs' toService enabledBars;
