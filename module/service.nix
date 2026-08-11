@@ -6,7 +6,7 @@ let
       location = import ./shared/barLocation.nix barName barConfig;
     in
     {
-      name = "${barName}-waybar";
+      name = "waybar-${barName}";
 
       value = {
         description = "Waybar for ${barName}";
