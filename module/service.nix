@@ -11,6 +11,7 @@ let
       value = {
         description = "Waybar for ${barName}";
         wantedBy = [ "graphical-session.target" ];
+        enableDefaultPath = false;
 
         serviceConfig = {
           ExecStart =
