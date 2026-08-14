@@ -11,6 +11,10 @@ let
       value = {
         description = "Waybar for ${barName}";
         wantedBy = [ "graphical-session.target" ];
+        reloadTriggers = [
+          "/etc/${location.config}"
+          "/etc/${location.style}"
+        ];
         enableDefaultPath = false;
 
         serviceConfig = {
