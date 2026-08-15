@@ -12,7 +12,7 @@ let
       else replaceGroup moduleName
   );
 
-  selectorFull = module.config.selectorSymbol + selectorName;
+  selectorFull = module.config.style.selectorSymbol + selectorName;
 
   baseRule = toRule
     selectorFull
