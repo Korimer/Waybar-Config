@@ -6,23 +6,25 @@ let
     if match == null then name else builtins.head match;
 
   selectorName =
-    let moduleName = module.config.name; in "#" + (
+    let moduleName = module.config.name; in (
       if builtins.match "^custom/.*" moduleName != null
       then builtins.replaceStrings ["/"] ["-"] moduleName
       else replaceGroup moduleName
   );
 
+  selectorFull = module.config.selectorSymbol + selectorName;
+
   baseRule = toRule
-    selectorName
+    selectorFull
     module.config.style.base
   ;
 
   bySelector = module.config.style.bySelector;
 
   selectorRules = map
-    (selector: toRule
-      "${selectorName}${selector}"
-      bySelector.${selector}
+    (selectorSuffix: toRule
+      "${selectorName}${selectorSuffix}"
+      bySelector.${selectorSuffix}
     ) 
     (builtins.attrNames bySelector);
 

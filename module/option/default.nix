@@ -16,6 +16,12 @@ let
       style = mkOption {
         type = types.submodule {
           options = {
+            selectorSymbol = mkOption {
+              type = types.str;
+              default = "#";
+              example = ".";
+            };
+
             base = mkOption {
               type = types.attrsOf types.str;
               default = {};
