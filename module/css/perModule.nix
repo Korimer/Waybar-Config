@@ -23,7 +23,7 @@ let
 
   selectorRules = map
     (selectorSuffix: toRule
-      "${selectorName}${selectorSuffix}"
+      "${selectorFull}${selectorSuffix}"
       bySelector.${selectorSuffix}
     ) 
     (builtins.attrNames bySelector);
